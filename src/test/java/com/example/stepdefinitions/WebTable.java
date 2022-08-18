@@ -5,11 +5,18 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,6 +26,7 @@ public class WebTable {
     private static final byte numberOfColumns = 6;
     private final WebDriver driver = SeleniumInitializer.getDriver();
     private final List<String> propertiesOfEmployee = new ArrayList<>(numberOfColumns);
+    private final List<String> columnValues = new ArrayList<>(5);
 
     @Given("user in on webtables page")
     public void navigateToWebtablesPage() {
@@ -56,14 +64,19 @@ public class WebTable {
         Assert.assertEquals(getCount(cells), numberOfColumns);
     }
 
-    private short getCount(List<WebElement> cells) {
-        short count = 0;
-        for (WebElement cell : cells) {
-            String tagValue = cell.getText();
-            if (tagValue.equals(propertiesOfEmployee.get(count))) ++count;
-            if (count == numberOfColumns) break;
+    @When("^he enters a column number: ([1-6]{1})$")
+    public void getColumnValues(String number) {
+        List<WebElement> rows = driver.findElements(By.xpath("//div[@class='rt-tr-group']"));
+        int castedNumber = Integer.parseInt(number) - 1;
+
+        for (WebElement row : rows) {
+            String rowValues = row.getText();
+            if (rowValues.isBlank())
+                break;
+
+            String columnValue = rowValues.split("\n")[castedNumber];
+            columnValues.add(columnValue);
         }
-        return count;
     }
 
     private void insertDataIntoFirstNameAndLastNameFields(String firstName, String lastName) {
@@ -91,5 +104,35 @@ public class WebTable {
         driver
                 .findElement(By.xpath("//input[@placeholder='Department']"))
                 .sendKeys(department);
+    }
+
+    private short getCount(List<WebElement> cells) {
+        short count = 0;
+        for (WebElement cell : cells) {
+            String tagValue = cell.getText();
+            if (tagValue.equals(propertiesOfEmployee.get(count))) ++count;
+            if (count == numberOfColumns) break;
+        }
+        return count;
+    }
+
+    @Then("a new column should be added into the Excel file")
+    public void insertIntoExcelFile() {
+        final String pathToExcel = "/home/razvanpustea/IdeaProjects/testdemoqawebsite/src/test/excel/output.xlsx";
+        try (
+                FileInputStream fs = new FileInputStream(pathToExcel);
+                Workbook wb = new XSSFWorkbook(fs);
+                FileOutputStream fos = new FileOutputStream(pathToExcel)
+        ) {
+            Sheet sheetName = wb.getSheetAt(0);
+            sheetName.autoSizeColumn(0, true);
+            for (int i = 0; i < columnValues.size(); i++) {
+                Row row = sheetName.createRow(i);
+                row.createCell(0).setCellValue(columnValues.get(i));
+            }
+            wb.write(fos);
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 }
