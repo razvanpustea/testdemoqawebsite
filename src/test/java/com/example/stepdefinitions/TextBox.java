@@ -40,7 +40,7 @@ public class TextBox {
         SeleniumInitializer.sleep();
     }
 
-    @And("presses the Submit button")
+    @And("presses the Submit button from textbox page")
     public void pressSubmitButton() {
         driver
                 .findElement(By.id("submit"))

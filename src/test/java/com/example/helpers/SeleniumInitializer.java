@@ -3,11 +3,10 @@ package com.example.helpers;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import java.time.Duration;
-
 public final class SeleniumInitializer {
 
-    private SeleniumInitializer() {}
+    private SeleniumInitializer() {
+    }
 
     public static WebDriver getDriver() {
         System.setProperty("webdriver.chrome.driver", "/home/razvanpustea/chromedriver");
@@ -20,9 +19,8 @@ public final class SeleniumInitializer {
 
     public static void sleep() {
         try {
-            Thread.sleep(20000L);
-        }
-        catch (InterruptedException ex) {
+            Thread.sleep(3000L);
+        } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
     }
