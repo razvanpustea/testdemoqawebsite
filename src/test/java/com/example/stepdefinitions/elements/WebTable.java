@@ -1,4 +1,4 @@
-package com.example.stepdefinitions;
+package com.example.stepdefinitions.elements;
 
 import com.example.helpers.SeleniumInitializer;
 import io.cucumber.java.en.And;

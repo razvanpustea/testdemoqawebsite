@@ -1,4 +1,4 @@
-package com.example.stepdefinitions;
+package com.example.stepdefinitions.elements;
 
 import com.example.helpers.SeleniumInitializer;
 import io.cucumber.java.en.Given;
@@ -13,7 +13,7 @@ import java.io.File;
 
 public class Download {
 
-    WebDriver driver = SeleniumInitializer.getDriver();
+    private final WebDriver driver = SeleniumInitializer.getDriver();
 
     @Given("user is on download page")
     public void navigateToDownloadPage() {
