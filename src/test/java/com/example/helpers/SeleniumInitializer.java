@@ -19,7 +19,7 @@ public final class SeleniumInitializer {
 
     public static void sleep() {
         try {
-            Thread.sleep(3000L);
+            Thread.sleep(2000L);
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
