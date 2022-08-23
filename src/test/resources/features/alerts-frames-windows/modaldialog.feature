@@ -1,4 +1,4 @@
-Feature: none
+Feature: modal dialog
   Scenario: test small modal button
     Given user is on modal-dialogs page
     When he clicks the 'Small modal' button

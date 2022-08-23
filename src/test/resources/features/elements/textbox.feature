@@ -1,4 +1,4 @@
-Feature: Textbox
+Feature: textbox
   Scenario: Insert data into text boxes
     Given user is on the textbox webpage
     When he inserts data into text boxes

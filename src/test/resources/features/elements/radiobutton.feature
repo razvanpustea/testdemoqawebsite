@@ -1,4 +1,4 @@
-Feature: Radio button
+Feature: radio button
   Scenario: Click on a radio button
     Given user is on radio button page
     When he clicks on a radio button

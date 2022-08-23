@@ -1,4 +1,4 @@
-Feature: Checkbox
+Feature: checkbox
   Scenario: Select checkboxes
     Given user is on checkbox page
     When he selects 1 or more checkboxes

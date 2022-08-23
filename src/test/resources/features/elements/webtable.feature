@@ -1,4 +1,4 @@
-Feature: Web table
+Feature: web table
 
   Scenario Outline: Add multiple rows to the table
     Given user in on webtables page

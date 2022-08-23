@@ -1,4 +1,4 @@
-Feature: Download
+Feature: download
   Scenario: Download a file
     Given user is on download page
     When he clicks on 'Download' button
